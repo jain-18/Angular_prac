@@ -7,10 +7,5 @@ import { Component, ElementRef, QueryList} from '@angular/core';
   styleUrl: './app.component.css'
 })
 export class AppComponent {
-  title = 'Angular-view-childern'
-
-  toggle : Boolean = true;
-  onToggle(){
-    this.toggle = !this.toggle;
-  }
+  
 }
