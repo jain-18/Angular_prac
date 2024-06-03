@@ -1,4 +1,3 @@
-// viewChildren
 import { ViewChildren } from '@angular/core';
 import { Component, ElementRef, QueryList} from '@angular/core';
 
@@ -10,19 +9,8 @@ import { Component, ElementRef, QueryList} from '@angular/core';
 export class AppComponent {
   title = 'Angular-view-childern'
 
-fullName : string = '';
-nae:string=''
-
-  @ViewChildren('inputEl') inputElements:QueryList< ElementRef>
-
-  show(){
-    this.inputElements.forEach((el) =>{
-      console.log(el.nativeElement.value)
-      this.nae += el.nativeElement.value + ' ';
-
-    } )
-    this.fullName = this.nae.trim();
+  toggle : Boolean = true;
+  onToggle(){
+    this.toggle = !this.toggle;
   }
-
-
 }
