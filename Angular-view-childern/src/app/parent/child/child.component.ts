@@ -1,4 +1,4 @@
-import { Component ,ContentChild, ContentChildren, ElementRef, QueryList } from '@angular/core';
+import { Component ,Input,ContentChild, ContentChildren, ElementRef, QueryList } from '@angular/core';
 
 @Component({
   selector: 'app-child',
@@ -6,14 +6,12 @@ import { Component ,ContentChild, ContentChildren, ElementRef, QueryList } from 
   styleUrl: './child.component.css'
 })
 export class ChildComponent {
-  @ContentChild('para') paragraphEl : ElementRef;
-
-  @ContentChildren('para') paraElements : QueryList<ElementRef>;
-
-  StyleParagraph(){
-    this.paraElements.forEach((el) => {
-      console.log(el.nativeElement)
-    })
-    
+  
+  title : string = 'Demo Component';
+  @Input() message : string = '';
+  constructor(){
+    console.log('demo component constructor child')
+    console.log('demo component constructor child')
+    console.log(this.title)
   }
 }

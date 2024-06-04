@@ -1,1 +1,6 @@
-<app-parent></app-parent>
+<div class="container">
+    <input type="text" #inputEl/>
+    <button (click)="onBtnClicked(inputEl)">Show / Hide</button>
+    <app-demo [message]="inputVal"></app-demo>
+    
+</div>
