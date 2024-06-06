@@ -3,7 +3,8 @@ import { SubscribeService } from '../Services/subscribe.service';
 
 @Component({
   selector: 'app-header',
-  templateUrl: './header.component.html'
+  templateUrl: './header.component.html',
+  providers : [SubscribeService]//what to provide
 })
 export class HeaderComponent {
   selectedTab: string = 'home';
@@ -18,8 +19,9 @@ export class HeaderComponent {
     this.selectedTab = 'admin';
   }
 
+  constructor(private subService : SubscribeService){
+  }
   OnSubscribe(){
-    let subService = new SubscribeService();
-    subService.onSubscribeClicked('monthly');
+    this.subService.onSubscribeClicked('monthly');
   }
 }
