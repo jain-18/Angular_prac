@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Observable, from, of } from 'rxjs';
+import { Observable, filter, from, map, of } from 'rxjs';
 
 @Component({
   selector: 'app-root',
@@ -36,7 +36,26 @@ export class AppComponent{
 
   // from operator
   // myobservable = from(this.array1);
-  myobservable = from(this.promiseData);
+
+  //myObservable - 2,4,6,8,10
+  //result - 10, 20,30,40,50
+  myobservable = from([2,4,6,8,10,12]).pipe(map((val)=>{
+    return val * 5;
+  }),filter((val)=>{
+    return val % 4 === 0;
+  }));
+
+  //transform data
+  // transformedObs = this.myobservable.pipe(map((val)=> {
+  //   return val * 5;
+  // }),filter((val,i)=>{
+  //   return val % 4 === 0;
+  // }))
+
+  //this will filter the number divisibilty by four
+  // filterObs = this.transformedObs.pipe(filter((val)=> {
+  //   return val % 4 === 0;
+  // }))
 
   GetAsyncData(){
       //observer
