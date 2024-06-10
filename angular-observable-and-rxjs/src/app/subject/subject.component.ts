@@ -16,25 +16,25 @@ export class SubjectComponent{
     // const subject = new Subject();
     // // subject.next(Math.random());
 
-    const subject = new BehaviorSubject<number>(100);
+    // const subject = new BehaviorSubject<number>(100);
 
-    //Subscriber 1
-    subject.subscribe((data)=> {
-      console.log("1 "+ data)
-    })
-    //subcriber 2
-    subject.subscribe((data)=> {
-      console.log("2 "+data)
-    })
+    // //Subscriber 1
+    // subject.subscribe((data)=> {
+    //   console.log("1 "+ data)
+    // })
+    // //subcriber 2
+    // subject.subscribe((data)=> {
+    //   console.log("2 "+data)
+    // })
 
-    subject.next(2020);
+    // subject.next(2020);
 
-    //subscribe 3
-    subject.subscribe((data)=> {
-      console.log("3 "+data)
-    })
+    // //subscribe 3
+    // subject.subscribe((data)=> {
+    //   console.log("3 "+data)
+    // })
 
-    subject.next(2023);
+    // subject.next(2023);
 
     //AJAX
     // const subject = new Subject();
@@ -46,6 +46,22 @@ export class SubjectComponent{
 
     // data.subscribe(subject);
 
+   // //promise vs observable
+    const promise = new Promise((resolve,reject)=>{
+      console.log('Promise is called ')
+      resolve(100);
+      resolve(200);
+      resolve(300);
+    })
+    //always retrun single value
+    promise.then((data)=>{
+      console.log(data)
+    })
+
+    const obs = new Observable((sub)=>{
+      console.log('Observable is called');
+      sub.next(100);
+    })
 
   }
 
