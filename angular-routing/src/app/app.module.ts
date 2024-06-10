@@ -24,12 +24,13 @@ import { FormsModule } from '@angular/forms';
 
 //Define routes
 const routes : Routes = [
-  {path: 'home',component:HomeComponent},
+  {path: '',component:HomeComponent},
+  {path: '',redirectTo: 'Home',pathMatch: 'full'},
+  {path: 'Home',component:HomeComponent},
   {path: 'About',component:AboutComponent},
   {path: 'Contact',component:ContactComponent},
   {path: 'Courses',component:CoursesComponent},
-  // {path: '',component:HomeComponent},
-  {path: '',redirectTo: 'home',pathMatch: 'full'}
+  {path:'**',component:NotFoundComponent}
 ]
 
 
