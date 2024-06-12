@@ -30,7 +30,11 @@ const routes : Routes = [
   {path: 'About',component:AboutComponent},
   {path: 'Contact',component:ContactComponent},
   {path: 'Courses',component:CoursesComponent},
-  {path : 'Courses/Course/:id',component : CourseDetailComponent},
+  // {path : 'Courses/Course/:id',component : CourseDetailComponent},
+  {path:'Courses',children:[
+    {path:'Course/:id',component:CourseDetailComponent}
+  ]},
+  {path:'Login', component: LoginComponent },
   {path:'**',component:NotFoundComponent}
 ]
 
