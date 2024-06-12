@@ -23,7 +23,9 @@ export class CoursesComponent {
       this.searchString = data.get('search')
     })
     if(this.searchString === undefined ||  this.searchString === '' || this.searchString === null){
-      this.AllCourses = this.coursesService.courses;
+      this.coursesService.getAllcourses().subscribe((data : Course[])=>{
+        this.AllCourses = data;
+      });
     }
     else{
       this.AllCourses = this.coursesService.courses.

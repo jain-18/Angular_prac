@@ -20,7 +20,8 @@ import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { FormsModule } from '@angular/forms';
-import { CanActivate, CanActivateChild } from './auth.guard';
+import { CanActivate, CanActivateChild, resolve } from './auth.guard';
+import { AuthService } from './Services/auth.service';
 
 
 //Define routes
@@ -29,8 +30,8 @@ const routes : Routes = [
   {path: '',redirectTo: 'Home',pathMatch: 'full'},
   {path: 'Home',component:HomeComponent},
   {path: 'About',component:AboutComponent},
-  {path: 'Contact',component:ContactComponent},
-  {path: 'Courses',component:CoursesComponent},
+  {path: 'Contact',component:ContactComponent, canDeactivate : [(comp : ContactComponent) => {return comp.canExit();}]},
+  {path: 'Courses',component:CoursesComponent,resolve : {courses : resolve}},
   // {path : 'Courses/Course/:id',component : CourseDetailComponent},
   {path:'Courses',canActivateChild : [CanActivateChild],children:[
     {path:'Course/:id',component:CourseDetailComponent},
