@@ -20,6 +20,7 @@ import { LoginComponent } from './login/login.component';
 import { NotFoundComponent } from './not-found/not-found.component';
 import { CheckoutComponent } from './checkout/checkout.component';
 import { FormsModule } from '@angular/forms';
+import { CanActivate, CanActivateChild } from './auth.guard';
 
 
 //Define routes
@@ -31,8 +32,11 @@ const routes : Routes = [
   {path: 'Contact',component:ContactComponent},
   {path: 'Courses',component:CoursesComponent},
   // {path : 'Courses/Course/:id',component : CourseDetailComponent},
-  {path:'Courses',children:[
-    {path:'Course/:id',component:CourseDetailComponent}
+  {path:'Courses',canActivateChild : [CanActivateChild],children:[
+    {path:'Course/:id',component:CourseDetailComponent},
+    {path : 'Checkout', component: CheckoutComponent}
+    // {path : 'Checkout', component: CheckoutComponent, canActivate : [CanActivate]}
+    
   ]},
   {path:'Login', component: LoginComponent },
   {path:'**',component:NotFoundComponent}
