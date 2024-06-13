@@ -16,7 +16,7 @@ export class AdminComponent implements OnInit {
   students: Student[];
   totalMarks: number;
 
-  filterText : string;
+  filterText : string = 'All';
   
   //PROPERTIES FOR INSERTING
   @ViewChild('name') Name: ElementRef;
@@ -35,8 +35,14 @@ export class AdminComponent implements OnInit {
   @ViewChild('editFee') editFee: ElementRef;
 
   ngOnInit(){
-    this.students = this.studentService.students;
+    this.students = this.studentService.filterStudentByGender(this.filterText);
     this.totalMarks = this.studentService.totalMarks;
+  }
+
+  OnFilterValueChanged(event : any){
+   let selectedValue = event.target.value;
+   this.filterText = selectedValue;
+   this.students = this.studentService.filterStudentByGender(selectedValue);
   }
 
   OnInsertClicked(){
@@ -55,6 +61,8 @@ export class AdminComponent implements OnInit {
       this.Fee.nativeElement.value
     );
     this.isInserting = false;
+    this.students = this.studentService.filterStudentByGender(this.filterText);
+
   }
 
   OnEditClicked(stdId: number){
