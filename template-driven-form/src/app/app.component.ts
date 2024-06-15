@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { NgForm } from '@angular/forms';
+import { AbstractControl, NgForm, ValidationErrors } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -8,6 +8,11 @@ import { NgForm } from '@angular/forms';
 })
 export class AppComponent {
   title = 'template-driven-form';
+
+  firstName : string ='';
+  lastName : string ='';
+  email : string ='';
+  
 
   @ViewChild('registrationForm') form  : NgForm
 
