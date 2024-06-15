@@ -1,62 +1,69 @@
-<section class="container">
+<section class="container" [ngClass]="{'form-shadow':registrationForm.touched}">
   <header>Registration Form</header>
 
   <form class="form" (ngSubmit)="OnFormSubmitted()" #registrationForm="ngForm">
     <div class="column">
       <div class="input-box">
-        <input type="text" placeholder="First Name" />
+        <input type="text" placeholder="First Name" name="firstname" ngModel/>
       </div> 
 
       <div class="input-box">
-        <input type="text" placeholder="Last Name" />
+        <input type="text" placeholder="Last Name" name="lastname" ngModel/>
       </div>
     </div>    
 
     <div class="input-box">
-      <input type="text" placeholder="Email" />
+      <input type="text" placeholder="Email" name="email" ngModel/>
     </div>
 
     <div class="column">
       <div class="input-box">
-        <input type="number" placeholder="Phone Number" />
+        <input type="number" placeholder="Phone Number" name="phone" ngModel/>
       </div>
       <div class="input-box">
-        <input type="date" placeholder="Date of Birth" />
+        <input type="date" placeholder="Date of Birth" name="dob" ngModel/>
       </div>
     </div>
 
-    <div class="input-box">
+    <!-- <div class="input-box">
       <input type="text" placeholder="username" />
       <button class="btn-gen-username">
         Create a Username
       </button>
-    </div>
+    </div> -->
 
     <div class="gender-box">
       <h3>Gender</h3>
       <div class="gender-option">
-        <div class="gender">
-          <input type="radio" id="check-male" name="gender" checked />
-          <label for="check-male">male</label>
+        <div class="gender" *ngFor="let gen of genders">
+          <input type="radio" [id]="gen.id" name="gender" [value]="gen.value"  ngModel/>
+          <label [for]="gen.id">{{gen.display}}</label>
+        </div>
+
+
+
+
+
+
+        <!-- <br> -->
+        <!-- <div class="gender">
+          <input type="radio" id="check-female" name="gender" ngModel />
+          <label for="check-female" >Female</label>
         </div>
         <div class="gender">
-          <input type="radio" id="check-female" name="gender" />
-          <label for="check-female">Female</label>
-        </div>
-        <div class="gender">
-          <input type="radio" id="check-other" name="gender" />
-          <label for="check-other">prefer not to say</label>
-        </div>
+          <input type="radio" id="check-other" name="gender" ngModel style="border: 10px solid black;"/>
+          <label for="check-other" >prefer not to say</label>
+        </div> -->
       </div>
     </div>
 
     <div class="input-box address">
       <label>Address</label>
-      <input type="text" placeholder="Street address" />
-      <input type="text" placeholder="Street address line 2" />
+      <input type="text" placeholder="Street address" name="street1" ngModel/>
+      <input type="text" placeholder="Street address line 2" name="street2" ngModel/>
       <div class="column">
         <div class="select-box">
-          <select name="country">
+          <select name="country" ngModel>
             <option hidden>Country</option>
             <option>America</option>
             <option>Japan</option>
@@ -64,11 +71,11 @@
             <option>Nepal</option>
           </select>
         </div>
-        <input type="text" placeholder="City" />
+        <input type="text" placeholder="City" name="city" ngModel/>
       </div>
       <div class="column">
-        <input type="text" placeholder="Region" />
-        <input type="number" placeholder="Postal code" />
+        <input type="text" placeholder="Region" name="region" ngModel/>
+        <input type="number" placeholder="Postal code" name="postal" ngModel/>
       </div>
     </div>
     <input type="submit" value="Submit" class="submit-btn"> 

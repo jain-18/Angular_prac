@@ -51,7 +51,7 @@
   margin-bottom: 8px;
 }
 .form :where(.gender-option, .gender) {
-  display: flex;
+  display:flex;
   align-items: center;
   column-gap: 50px;
   flex-wrap: wrap;
@@ -105,7 +105,7 @@
 }
 
 .form-shadow{
-  box-shadow: rgba(187, 185, 185, 0.35) 0px 5px 15px;
+  box-shadow: rgba(255, 255, 255, 0.35) 0px 10px 18px;
 }
 
 input.ng-invalid.ng-touched{
