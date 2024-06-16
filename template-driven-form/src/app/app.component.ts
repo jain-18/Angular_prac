@@ -30,6 +30,8 @@ export class AppComponent {
     console.log(this.form.value.email);
     console.log(this.form.value.address.country);
     console.log(this.form.value.address.city);
+
+    this.form.reset();
   }
 
   GenerateUsername(){
