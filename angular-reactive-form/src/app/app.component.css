@@ -205,3 +205,10 @@ input.ng-pending{
 input.ng-invalid.ng-touched{
   border: red 2px solid;
 }
+.form .submit-btn:disabled {
+  /* Styles for the button when it is disabled */
+  /* color: #fff; */
+  background: #E7005E;
+  color: #fff;
+  cursor: not-allowed;
+}
