@@ -21,6 +21,7 @@ export class AppComponent {
   region : string = '';
   postal : string = '';
   userName : string = '';
+  IsAgreed : boolean = false;
 
   first : string ='';
   last : string ='';
@@ -47,8 +48,9 @@ export class AppComponent {
     this.city = this.form.value.address.city;
     this.region = this.form.value.address.region;
     this.postal = this.form.value.address.postal;
+    this.IsAgreed = this.form.value.agreement;
 
-    this.form.reset();
+    // this.form.reset();
   }
 
   GenerateUsername(){

@@ -103,13 +103,13 @@
         <input type="text" placeholder="City" name="city" ngModel required />
       </div>
       <div class="column">
-        <input type="text" placeholder="Region" name="region" ngModel />
+        <input type="text" placeholder="Region" name="region" />
         <input type="number" placeholder="Postal code" name="postal" ngModel required/>
       </div>
     </div>
 
     <div class="column">
-      <input type="checkbox" name="agreement">
+      <input type="checkbox" name="agreement" ngModel [(ngModel)]="IsAgreed" >
       <label for="agreement">I agree to terms & conditions</label><br>
     </div>
     
