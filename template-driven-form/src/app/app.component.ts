@@ -9,10 +9,22 @@ import { AbstractControl, NgForm, ValidationErrors } from '@angular/forms';
 export class AppComponent {
   title = 'template-driven-form';
 
+
+
   firstName : string ='';
   lastName : string ='';
   dob : string = '';
   email : string ='';
+  gender  : string  = '';
+  country : string ='';
+  city : string = '';
+  region : string = '';
+  postal : string = '';
+  userName : string = '';
+
+  first : string ='';
+  last : string ='';
+  ddob : string ='';
   
 
   @ViewChild('registrationForm') form  : NgForm
@@ -25,32 +37,37 @@ export class AppComponent {
 
   OnFormSubmitted(){
     console.log(this.form);
-    console.log(this.form.value.firstname);
-    console.log(this.form.value.lastname);
-    console.log(this.form.value.email);
-    console.log(this.form.value.address.country);
-    console.log(this.form.value.address.city);
+
+    this.firstName = this.form.value.firstname;
+    this.lastName = this.form.value.lastname;
+    this.email = this.form.value.email;
+    this.dob = this.form.value.dob;
+    this.userName = this.form.value.usernamee;
+    this.country = this.form.value.address.country;
+    this.city = this.form.value.address.city;
+    this.region = this.form.value.address.region;
+    this.postal = this.form.value.address.postal;
 
     this.form.reset();
   }
 
   GenerateUsername(){
     let username = '';
-    if(this.firstName.length >= 3){
-      username += this.firstName.slice(0,3);
+    if(this.first.length >= 3){
+      username += this.first.slice(0,3);
     }
     else{
-      username += this.firstName;
+      username += this.first;
     }
 
-    if(this.lastName.length >= 3){
-      username += this.lastName.slice(0,3);
+    if(this.last.length >= 3){
+      username += this.last.slice(0,3);
     }
     else{
-      username += this.lastName;
+      username += this.last;
     }
 
-    let datetime = new Date(this.dob) ;
+    let datetime = new Date(this.ddob) ;
     username += datetime.getFullYear();
 
     username = username.toLowerCase();
@@ -77,7 +94,7 @@ export class AppComponent {
     // })
 
     this.form.form.patchValue({
-      username:username
+      usernamee:username
     })
   }
 
