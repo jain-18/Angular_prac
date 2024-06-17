@@ -24,7 +24,7 @@ export class AppComponent implements OnInit {
       ]),
       lastname: new FormControl(null, [Validators.required,noSpaceAllowed]),
       email: new FormControl(null, [Validators.required, Validators.email]),
-      username: new FormControl(null),
+      username: new FormControl(null, Validators.required,CustomValidators.checkUserName),
       dob: new FormControl(null),
       gender: new FormControl('male'),
       address: new FormGroup({
@@ -37,6 +37,18 @@ export class AppComponent implements OnInit {
       skills: new FormArray([new FormControl(null, Validators.required)]),
       experience: new FormArray([]),
     });
+
+    // this.reactiveForm.get('firstname').valueChanges.subscribe((value)=>{
+    //   console.log(value);
+    // })
+
+    // this.reactiveForm.valueChanges.subscribe((value)=>{
+    //   console.log(value);
+    // })
+
+    this.reactiveForm.statusChanges.subscribe((status)=>{
+      console.log(status);
+    })
   }
 
   OnFormSubmitted() {
