@@ -2,6 +2,8 @@ import { OnInit } from '@angular/core';
 import { Component } from '@angular/core';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs';
+import { noSpaceAllowed } from './Validators/noSpaceAllowed.validator';
+import { CustomValidators } from './Validators/noSpaceAllowed.validator';
 
 @Component({
   selector: 'app-root',
@@ -18,8 +20,9 @@ export class AppComponent implements OnInit {
       firstname: new FormControl(null, [
         Validators.required,
         Validators.maxLength(10),
+        CustomValidators.noSpaceAllowed
       ]),
-      lastname: new FormControl(null, Validators.required),
+      lastname: new FormControl(null, [Validators.required,noSpaceAllowed]),
       email: new FormControl(null, [Validators.required, Validators.email]),
       username: new FormControl(null),
       dob: new FormControl(null),

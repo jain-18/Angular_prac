@@ -5,8 +5,8 @@
     <div class="column">
       <div class="input-box">
         <input type="text" placeholder="First Name" formControlName="firstname" />
-        <small *ngIf="reactiveForm.get('firstname').invalid && reactiveForm.get('firstname').touched">*First Name is
-          required field</small>
+        <small *ngIf="reactiveForm.get('firstname').errors?.['required'] && reactiveForm.get('firstname').touched">*First Name is required field</small>
+        <small *ngIf="reactiveForm.get('firstname').errors?.['noSpaceAllowed'] && reactiveForm.get('firstname').touched">*Space is not Allowed</small>
       </div>
       <div class="input-box">
         <input type="text" placeholder="Last Name" formControlName="lastname" />
@@ -154,13 +154,8 @@
 
 
 
-
-    <!-- <div class="input-box" formArrayName="skills">
-      <input type="text" placeholder="Add Skill..."
-        *ngFor="let control of reactiveForm.get('skills')['controls']; let i = index" [formControlName]="i" />
-      <button type="button" class="btn-add-delete" (click)="AddSkills()">Add Skills</button>
-    </div> -->
-    <input type="submit" value="Submit" class="submit-btn" [disabled]="reactiveForm.invalid">
+    <input type="submit" value="Submit" class="submit-btn" >
+    <!-- [disabled]="reactiveForm.invalid" -->
   </form>
 </section>
 
