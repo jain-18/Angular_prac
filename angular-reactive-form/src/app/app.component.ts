@@ -12,6 +12,7 @@ import { CustomValidators } from './Validators/noSpaceAllowed.validator';
 })
 export class AppComponent implements OnInit {
   title = 'template-driven-form';
+  formdata : any = {};
 
   reactiveForm: FormGroup;
 
@@ -46,13 +47,14 @@ export class AppComponent implements OnInit {
     //   console.log(value);
     // })
 
-    this.reactiveForm.statusChanges.subscribe((status)=>{
-      console.log(status);
-    })
+    // this.reactiveForm.statusChanges.subscribe((status)=>{
+    //   console.log(status);
+    // })
   }
 
   OnFormSubmitted() {
     console.log(this.reactiveForm);
+    this.formdata = this.reactiveForm.value;
   }
 
   AddSkills() {
@@ -82,4 +84,32 @@ export class AppComponent implements OnInit {
     const controls = <FormArray>this.reactiveForm.get('experience');
     controls.removeAt(index);
   }
+
+  GenerateUsername(){
+      let username = "";
+      const fName: string = this.reactiveForm.get("firstname").value;
+      const lName: string = this.reactiveForm.get("lastname").value;
+      const dob: string = this.reactiveForm.get("dob").value;
+      if(fName.length >= 3){
+        username += fName.slice(0, 3);
+      } else {
+        username += fName;
+      }
+      if(lName.length >= 3){
+        username += lName.slice(0, 3);
+      } else {
+        username += lName;
+      }
+      let datetime = new Date(dob);
+      username += datetime.getFullYear();
+      username = username.toLowerCase();
+      console.log(username);
+
+      // this.reactiveForm.patchValue({
+      //   username: username
+      // })
+
+      this.reactiveForm.get('username').setValue(username);
+    }
+    
 }
