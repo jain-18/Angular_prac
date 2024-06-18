@@ -11,6 +11,7 @@ import { map } from 'rxjs';
 export class DashboardComponent{
   showCreateTaskForm: boolean = false;
   http : HttpClient = inject(HttpClient);
+  allTasks : Task[] = [];
 
   ngOnInit(){
     this.fetchAllTasks();
@@ -30,6 +31,7 @@ export class DashboardComponent{
     this.http.post<{name : string}>('https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json', data ,{ headers : headerss}).
     subscribe((response)=>{
       console.log(response);
+      this.fetchAllTasks();
     });
   }
 
@@ -50,8 +52,28 @@ export class DashboardComponent{
       }
       return tasks;
     }))
+    .subscribe((tasks)=>{
+      this.allTasks = tasks;
+      console.log(tasks);
+    })
+  }
+
+  FetchAllTaskClicked(){
+    this.fetchAllTasks();
+  }
+
+  DeleteTask(id : string | undefined){
+    this.http.delete('https://angularprac-89950-default-rtdb.firebaseio.com/tasks/'+id+'.json')
     .subscribe((response)=>{
+      this.fetchAllTasks();
       console.log(response);
+    });
+  }
+
+  DeleteAllTaskClicked(){
+    this.http.delete('https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json')
+    .subscribe((res)=>{
+      this.fetchAllTasks();
     })
   }
 }
