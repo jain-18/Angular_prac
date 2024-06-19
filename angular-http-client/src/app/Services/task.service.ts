@@ -1,7 +1,7 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Task } from '../Model/task';
-import { map } from 'rxjs';
+import { Subject, map } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -9,18 +9,20 @@ import { map } from 'rxjs';
 export class TaskService {
   http: HttpClient = inject(HttpClient);
 
+  errorSubject = new Subject<HttpErrorResponse>();
+
   CreateTask(task: Task) {
     // console.log(data);
     const headerss = new HttpHeaders({ 'my-header': 'hello-world' });
     this.http
       .post<{ name: string }>(
-        'https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json',
+        'https://angularpract-89950-default-rtdb.firebaseio.com/tasks.json',
         task,
         { headers: headerss }
       )
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe({error : (err)=> {
+          this.errorSubject.next(err);
+      }})
   }
 
   DeleteTask(id: string | undefined) {
@@ -30,9 +32,9 @@ export class TaskService {
           id +
           '.json'
       )
-      .subscribe((response) => {
-        console.log(response);
-      });
+      .subscribe({error : (err)=> {
+        this.errorSubject.next(err);
+    }})
   }
 
   DeleteAllTaskClicked() {
@@ -40,7 +42,9 @@ export class TaskService {
       .delete(
         'https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json'
       )
-      .subscribe((res) => {});
+      .subscribe({error : (err)=> {
+        this.errorSubject.next(err);
+    }})
   }
 
   GetAllTasks(){
@@ -58,6 +62,8 @@ export class TaskService {
   }
   UpdateTask(id : string | undefined,data : Task){
     this.http.put('https://angularprac-89950-default-rtdb.firebaseio.com/tasks/'+id+'.json',data)
-    .subscribe();
+    .subscribe({error : (err)=> {
+      this.errorSubject.next(err);
+  }})
   }
 }
