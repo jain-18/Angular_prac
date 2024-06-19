@@ -17,7 +17,7 @@ export class TaskService {
     const headerss = new HttpHeaders({ 'my-header': 'hello-world' });
     this.http
       .post<{ name: string }>(
-        'https://angularpract-89950-default-rtdb.firebaseio.com/tasks.json',
+        'https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json',
         task,
         { headers: headerss }
       ).pipe(catchError((err)=>{
@@ -100,5 +100,15 @@ export class TaskService {
     .subscribe({error : (err)=> {
       this.errorSubject.next(err);
   }})
+  }
+
+  getTaskDetails(id : string | undefined){
+    return this.http.get('https://angularprac-89950-default-rtdb.firebaseio.com/tasks/' +id+'.json')
+    .pipe(map((response)=>{
+      console.log(response)
+      let task = {};
+      task = {...response,id : id}
+      return task;
+    }))
   }
 }

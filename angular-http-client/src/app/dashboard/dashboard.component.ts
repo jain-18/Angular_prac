@@ -15,7 +15,8 @@ export class DashboardComponent {
   allTasks: Task[] = [];
   taskService: TaskService = inject(TaskService);
   currentTaskId: string = '';
-
+  currentTask : Task | null =null; 
+  showTaskDetails : boolean = false;
   errorMessage : string | null = null;
 
   editMode: boolean = false;
@@ -111,5 +112,17 @@ export class DashboardComponent {
     this.selectedTask = this.allTasks.find((task) => {
       return task.id === id;
     });
+  }
+
+  showCurrentTaskDetails(id : string){
+    this.showTaskDetails = true;
+    this.taskService.getTaskDetails(id).subscribe({ next : (data : Task)=>{
+    this.currentTask = data;
+    return this.currentTask;
+    }})
+  }
+
+  CloseTaskDetails(){
+    this.showTaskDetails = false;
   }
 }
