@@ -1,7 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, OnInit, Output, inject } from '@angular/core';
 import { Task } from '../Model/task';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { map } from 'rxjs';
+import { TaskService } from '../Services/task.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -12,27 +13,33 @@ export class DashboardComponent{
   showCreateTaskForm: boolean = false;
   http : HttpClient = inject(HttpClient);
   allTasks : Task[] = [];
+  taskService : TaskService = inject(TaskService);
+  currentTaskId : string = '';
 
+  editMode : boolean = false;
+
+  selectedTask: Task;
   ngOnInit(){
     this.fetchAllTasks();
   }
 
   OpenCreateTaskForm(){
     this.showCreateTaskForm = true;
+    this.editMode=false;
+    this.selectedTask = {title : '',desc: '' , assignedTo : '',createdAt : '',status : '',priority : ''};
   }
 
   CloseCreateTaskForm(){
     this.showCreateTaskForm = false;
   }
 
-  CreateTask(data : Task){
-    // console.log(data);
-    const headerss = new HttpHeaders({'my-header':'hello-world'})
-    this.http.post<{name : string}>('https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json', data ,{ headers : headerss}).
-    subscribe((response)=>{
-      console.log(response);
-      this.fetchAllTasks();
-    });
+  CreateTaskOrUpdateTask(data : Task){
+    if(!this.editMode){
+      this.taskService.CreateTask(data);
+    }
+    else{
+      this.taskService.UpdateTask(this.currentTaskId,data);
+    }
   }
 
   // {
@@ -41,18 +48,7 @@ export class DashboardComponent{
   // }
 
   private fetchAllTasks(){
-    this.http.get<{[key : string] : Task}>('https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json')
-    .pipe(map((response)=>{
-      //transform data to array
-      let tasks = [];
-      for(let key in response){
-        if(response.hasOwnProperty(key)){
-          tasks.push({id : key , ...response[key]})
-        }
-      }
-      return tasks;
-    }))
-    .subscribe((tasks)=>{
+    this.taskService.GetAllTasks().subscribe((tasks)=>{
       this.allTasks = tasks;
       console.log(tasks);
     })
@@ -63,17 +59,20 @@ export class DashboardComponent{
   }
 
   DeleteTask(id : string | undefined){
-    this.http.delete('https://angularprac-89950-default-rtdb.firebaseio.com/tasks/'+id+'.json')
-    .subscribe((response)=>{
-      this.fetchAllTasks();
-      console.log(response);
-    });
+   this.taskService.DeleteTask(id);
   }
 
   DeleteAllTaskClicked(){
-    this.http.delete('https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json')
-    .subscribe((res)=>{
-      this.fetchAllTasks();
+  this.taskService.DeleteAllTaskClicked();
+  }
+
+  OnEditTaskClicked(id : string | undefined){
+    this.currentTaskId = id;
+    this.showCreateTaskForm = true;
+    this.editMode = true;
+
+    this.selectedTask = this.allTasks.find((task)=>{
+      return task.id === id
     })
   }
 }
