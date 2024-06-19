@@ -1,14 +1,15 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Injectable, inject } from '@angular/core';
 import { Task } from '../Model/task';
-import { Subject, map } from 'rxjs';
+import { Subject, catchError, map, throwError } from 'rxjs';
+import { LoggingService } from './logging.service';
 
 @Injectable({
   providedIn: 'root',
 })
 export class TaskService {
   http: HttpClient = inject(HttpClient);
-
+  loggingService : LoggingService = inject(LoggingService)
   errorSubject = new Subject<HttpErrorResponse>();
 
   CreateTask(task: Task) {
@@ -19,7 +20,13 @@ export class TaskService {
         'https://angularpract-89950-default-rtdb.firebaseio.com/tasks.json',
         task,
         { headers: headerss }
-      )
+      ).pipe(catchError((err)=>{
+        //write the logic to log error
+        const errorObj = {statusCode : err.status,errorMessage : err.message,datetime : new Date()}
+        this.loggingService.Logerror(errorObj);
+        return throwError(()=> err)
+  
+      }))
       .subscribe({error : (err)=> {
           this.errorSubject.next(err);
       }})
@@ -31,7 +38,13 @@ export class TaskService {
         'https://angularprac-89950-default-rtdb.firebaseio.com/tasks/' +
           id +
           '.json'
-      )
+      ).pipe( catchError((err)=>{
+        //write the logic to log error
+        const errorObj = {statusCode : err.status,errorMessage : err.message,datetime : new Date()}
+        this.loggingService.Logerror(errorObj);
+        return throwError(()=> err)
+  
+      }))
       .subscribe({error : (err)=> {
         this.errorSubject.next(err);
     }})
@@ -41,7 +54,13 @@ export class TaskService {
     this.http
       .delete(
         'https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json'
-      )
+      ).pipe(catchError((err)=>{
+        //write the logic to log error
+        const errorObj = {statusCode : err.status,errorMessage : err.message,datetime : new Date()}
+        this.loggingService.Logerror(errorObj);
+        return throwError(()=> err)
+  
+      }))
       .subscribe({error : (err)=> {
         this.errorSubject.next(err);
     }})
@@ -58,10 +77,26 @@ export class TaskService {
         }
       }
       return tasks;
+    }), catchError((err)=>{
+      //write the logic to log error
+      const errorObj = {statusCode : err.status,errorMessage : err.message,datetime : new Date()}
+      this.loggingService.Logerror(errorObj);
+      return throwError(()=> err)
+
     }))
   }
+
+
+
   UpdateTask(id : string | undefined,data : Task){
     this.http.put('https://angularprac-89950-default-rtdb.firebaseio.com/tasks/'+id+'.json',data)
+    .pipe(catchError((err)=>{
+      //write the logic to log error
+      const errorObj = {statusCode : err.status,errorMessage : err.message,datetime : new Date()}
+      this.loggingService.Logerror(errorObj);
+      return throwError(()=> err)
+
+    }))
     .subscribe({error : (err)=> {
       this.errorSubject.next(err);
   }})
