@@ -1,6 +1,8 @@
 import { Component, inject } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../Services/auth-service';
+import { Observable } from 'rxjs';
+import { AuthResponse } from '../Model/Authsponse';
 
 @Component({
   selector: 'app-login',
@@ -12,6 +14,7 @@ export class LoginComponent {
   isLoginMode : boolean = true;
   isLoading = false;
   errorMessage : string | null = null;
+  authObs : Observable<AuthResponse> 
   
 
   onSwitchMode(){
@@ -25,24 +28,27 @@ export class LoginComponent {
     const password = form.value.password;
     if(this.isLoginMode){
       //login logic
-      this.isLoading = false;
-      return;
+      this.isLoading = true;
+      this.authObs = this.authService.login(email,password);
     }else{
       //register logic
-      this.authService.signup(email,password)
-      .subscribe({
-        next:(res) => {console.log(res);
-          this.isLoading = false
-          this.errorMessage = null
-        },
-        error : (errorMsg ) => {
-          // console.log('error '+ errorMsg);
-          this.isLoading = false;
-          this.errorMessage = errorMsg;
-          this.hideSnackbar();
-        }
-      })
+      this.isLoading = true;
+      this.authObs = this.authService.signup(email,password)
+
+      
     }
+    this.authObs.subscribe({
+      next:(res) => {console.log(res);
+        this.isLoading = false
+        this.errorMessage = null
+      },
+      error : (errorMsg ) => {
+        // console.log('error '+ errorMsg);
+        this.isLoading = false;
+        this.errorMessage = errorMsg;
+        this.hideSnackbar();
+      }
+    })
     form.reset();
   }
 
