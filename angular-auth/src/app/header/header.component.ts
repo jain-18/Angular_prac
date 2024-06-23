@@ -1,4 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
+import { AuthService } from '../Services/auth-service';
+import { User } from '../Model/User';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-header',
@@ -7,4 +10,16 @@ import { Component } from '@angular/core';
 })
 export class HeaderComponent {
 
+  authService : AuthService = inject(AuthService);
+  isLoggedIn : boolean = false;
+  private userSubject : Subscription;
+  ngOnInit(){
+    this.userSubject = this.authService.user.subscribe((user : User)=>{
+      this.isLoggedIn = user ? true  : false;
+    });
+  }
+
+  ngOnDestroy(){
+    this.userSubject.unsubscribe();
+  }
 }
