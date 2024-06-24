@@ -13,6 +13,7 @@ export class AuthService {
   http: HttpClient = inject(HttpClient);
   user = new BehaviorSubject<User>(null);
   router : Router = inject(Router);
+  private tokenExpiretimer : any;
 
   signup(email, password) {
     const data = { email: email, password: password, returnSecureToken: true };
@@ -46,7 +47,19 @@ export class AuthService {
 
   logout(){
     this.user.next(null);
+    localStorage.removeItem('user');
     this.router.navigate(['/login']);
+
+    if(this.tokenExpiretimer){
+      clearTimeout(this.tokenExpiretimer);
+    }
+    this.tokenExpiretimer = null;
+  }
+
+  autoLogout(expireTime : number){
+    this.tokenExpiretimer = setTimeout(()=>{
+      this.logout();
+    },expireTime);
   }
 
   autoLogin(){
@@ -57,6 +70,8 @@ export class AuthService {
     const loggedUser = new User(user.email,user.id,user._token,new Date(user._expeireIn));
     if(loggedUser.token){
       this.user.next(loggedUser);
+      const timerValue = new Date(user._expeireIn).getTime() - new Date().getTime();
+      this.autoLogout(timerValue)
     }
   }
 
@@ -65,6 +80,7 @@ export class AuthService {
     const expiresIn = new Date(expiresInts);
     const user = new User(res.email, res.localId, res.idToken, expiresIn);
     this.user.next(user);
+    this.autoLogout(res.expiresIn*1000);
 
     localStorage.setItem('user',JSON.stringify(user));
   }
