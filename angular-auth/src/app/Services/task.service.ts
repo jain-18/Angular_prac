@@ -64,10 +64,7 @@ export class TaskService{
     }
 
     GetAlltasks(){
-        return this.authService.user.pipe(take(1),exhaustMap(user =>{
-            return this.http.get<{[key: string]: Task}>('https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json',
-            {params : new HttpParams().set('auth',user.token)})
-        }),map((response) => {
+        return this.http.get('https://angularprac-89950-default-rtdb.firebaseio.com/tasks.json').pipe(map((response) => {
             //TRANSFORM DATA
             let tasks = [];
             console.log(response);
