@@ -49,11 +49,24 @@ export class AuthService {
     this.router.navigate(['/login']);
   }
 
+  autoLogin(){
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(!user){
+      return null;
+    }
+    const loggedUser = new User(user.email,user.id,user._token,new Date(user._expeireIn));
+    if(loggedUser.token){
+      this.user.next(loggedUser);
+    }
+  }
+
   private handleCreateUser(res) {
     const expiresInts = new Date().getTime() + +res.expiresIn * 1000;
     const expiresIn = new Date(expiresInts);
     const user = new User(res.email, res.localId, res.idToken, expiresIn);
     this.user.next(user);
+
+    localStorage.setItem('user',JSON.stringify(user));
   }
 
   private handleError(err) {
