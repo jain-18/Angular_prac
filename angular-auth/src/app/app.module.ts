@@ -14,27 +14,22 @@ import { LoggingInterceptorService } from './Services/logging-interceptor.serviv
 import { RouteModule } from './route.module';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './login/login.component';
-import { LoaderComponent } from './utility/loader/loader.component';
-import { SnackbarComponent } from './utility/snackbar/snackbar.component';
+import { DashBoardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    DashboardComponent,
-    CreateTaskComponent,
-    TaskDetailsComponent,
     HomeComponent,
     LoginComponent,
-    LoaderComponent,
-    SnackbarComponent
+    
   ],
   imports: [
     BrowserModule,
-    FormsModule,
     HttpClientModule,
-    RouteModule
+    RouteModule,
+    DashBoardModule
   ],
   providers: [
     {provide: HTTP_INTERCEPTORS, useClass: AuthInterceptorService, multi: true},
